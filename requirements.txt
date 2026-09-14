@@ -1,0 +1,22 @@
+# Dependencias del flujo MIDI -> chart. Nada de torch: la separacion de fuentes
+# y la transcripcion de audio NO forman parte de este flujo.
+
+# Nucleo: caratula y analisis de audio (mapa de tempo desde la grabacion).
+Pillow>=10.0
+librosa>=0.10
+numpy>=1.24
+scipy>=1.10
+
+# Metadatos de MusicBrainz y caratula del Cover Art Archive. Sin clave de API.
+musicbrainzngs>=0.7
+requests>=2.31
+
+# Solo para --sections (segmentar la grabacion por auto-similitud).
+scikit-learn>=1.3
+
+# Solo para --lyrics-mode syllable.
+pyphen>=0.14
+
+# Solo para correr los tests de tools/ y generar audio de prueba.
+pytest>=8.0
+soundfile>=0.12

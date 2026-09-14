@@ -1,0 +1,57 @@
+# Fin de linea, decidido aqui y no por la configuracion de cada maquina.
+#
+# Sin este archivo, git se comporta segun el `core.autocrlf` de quien clone. Dos
+# personas con ajustes distintos producen commits que cambian el archivo COMPLETO
+# sin cambiar una sola linea de codigo, y a partir de ahi los diffs dejan de
+# servir para nada.
+#
+# Este archivo tiene que existir ANTES del primer commit. Si se añade despues hay
+# que renormalizar a mano:  git add --renormalize .
+
+# Por defecto: git detecta que es texto y guarda LF en el repositorio.
+* text=auto
+
+
+# --- Lo que necesita CRLF de verdad ---------------------------------------
+
+# Los .bat los ejecuta cmd.exe, y con LF falla de formas nada obvias: una
+# etiqueta de GOTO que no se encuentra, un bloque if/else mal delimitado, un
+# `set` que se come el resto de la linea. No es cosmetico.
+*.bat text eol=crlf
+
+# El .chart se escribe con CRLF a proposito (ver el comentario NEWLINE en
+# chartgen/backends/chart.py: es lo que escribe Moonscraper, y mantenerlo evita
+# diffs ruidosos cuando alguien reabre y guarda el chart en el editor). Hoy
+# out/ esta ignorado y no se versiona ninguno, pero si algun dia entra uno como
+# fixture, que no se lo normalice nadie.
+*.chart text eol=crlf
+
+
+# --- Lo que quiere LF -----------------------------------------------------
+# Asi un editor en Linux o macOS no ve ^M al final de cada linea.
+*.py    text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.ini   text eol=lf
+*.cfg   text eol=lf
+*.toml  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+.gitignore     text eol=lf
+.gitattributes text eol=lf
+
+
+# --- Binarios: que git no toque nada --------------------------------------
+# `text=auto` casi siempre los detecta solo, pero declararlo evita el caso raro
+# de un archivo pequeno que parece texto y acaba corrupto.
+*.mid   binary
+*.midi  binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.ogg   binary
+*.mp3   binary
+*.wav   binary
+*.flac  binary
+*.opus  binary
+*.m4a   binary
